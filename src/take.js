@@ -11,4 +11,4 @@ const take = curry((l, iter) => {
     return res;
 });
 
-module.export = take;
+module.exports = take;
