@@ -1,7 +1,7 @@
 const go = require("./go");
-const filter = require("./filter");
+const filterL = require("./Lazy/filterL");
 const take = require("./take");
 
-const find = (f, iter) => go(iter, filter(f), take(1), ([a]) => a);
+const find = (f, iter) => go(iter, filterL(f), take(1), ([a]) => a);
 
 module.exports = find;
