@@ -1,12 +1,11 @@
 const pipe = require("./pipe");
-const map = require("./map");
-// const reduce = require("./reduce");
+const mapL = require("./Lazy/mapL");
 const join = require("./join");
+const entriesL = require("./Lazy/entriesL");
 
 const queryStr = pipe(
-    Object.entries,
-    map(([k, v]) => `${k}=${v}`),
-    // reduce((a, b) => `${a}&${b}`),
+    entriesL,
+    mapL(([k, v]) => `${k}=${v}`),
     join("&")
 );
 
