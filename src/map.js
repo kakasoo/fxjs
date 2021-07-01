@@ -1,11 +1,14 @@
 const curry = require("./curry");
 
 const map = curry((f, iter) => {
-    const newArr = [];
-    for (const a of iter) {
-        newArr.push(f(a));
+    const res = [];
+    iter = iter[Symbol.iterator]();
+    let cur;
+    while (!(cur = iter.next()).done) {
+        const a = cur.value;
+        res.push(f(a));
     }
-    return newArr;
+    return res;
 });
 
 module.exports = map;

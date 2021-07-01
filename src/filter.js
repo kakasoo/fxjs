@@ -1,13 +1,16 @@
 const curry = require("./curry");
 
 const filter = curry((f, iter) => {
-    const newArr = [];
-    for (const a of iter) {
+    const res = [];
+    iter = iter[Symbol.iterator]();
+
+    while (!(cur = iter.next()).done) {
+        const a = cur.value;
         if (f(a)) {
-            newArr.push(a);
+            res.push(a);
         }
     }
-    return newArr;
+    return res;
 });
 
 module.exports = filter;
