@@ -1,4 +1,4 @@
-const takeAll = require("../takeAll");
+const takeAll = require("./takeAll");
 const curry = require("./curry");
 const mapL = require("./Lazy/mapL");
 const pipe = require("./pipe");
