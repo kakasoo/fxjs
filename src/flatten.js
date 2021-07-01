@@ -4,4 +4,4 @@ const takeAll = require("./takeAll");
 
 const flatten = pipe(flattenL, takeAll);
 
-module.exports = flattenL;
+module.exports = flatten;
