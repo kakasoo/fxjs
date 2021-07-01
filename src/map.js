@@ -1,14 +1,8 @@
+const takeAll = require("../takeAll");
 const curry = require("./curry");
+const mapL = require("./Lazy/mapL");
+const pipe = require("./pipe");
 
-const map = curry((f, iter) => {
-    const res = [];
-    iter = iter[Symbol.iterator]();
-    let cur;
-    while (!(cur = iter.next()).done) {
-        const a = cur.value;
-        res.push(f(a));
-    }
-    return res;
-});
+const map = curry(pipe(mapL, takeAll));
 
 module.exports = map;

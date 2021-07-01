@@ -1,16 +1,8 @@
+const takeAll = require("../takeAll");
 const curry = require("./curry");
+const filterL = require("./Lazy/filterL");
+const pipe = require("./pipe");
 
-const filter = curry((f, iter) => {
-    const res = [];
-    iter = iter[Symbol.iterator]();
+const map = curry(pipe(filterL, takeAll));
 
-    while (!(cur = iter.next()).done) {
-        const a = cur.value;
-        if (f(a)) {
-            res.push(a);
-        }
-    }
-    return res;
-});
-
-module.exports = filter;
+module.exports = map;
