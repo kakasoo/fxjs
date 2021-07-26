@@ -1,24 +1,28 @@
 const curry = require("./curry");
+const go1 = require("./go1");
+const nop = require("./Lazy/nop");
 
-const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
+const reduceF = (acc, a, f) =>
+    a instanceof Promise
+        ? a.then(f(acc, a), (e) => (e === nop ? acc : Promise.reject(e)))
+        : f(acc, a);
+
+const head = (iter) => go1(take(1, iter), ([h]) => h);
 
 const reduce = curry((f, acc, iter) => {
     if (!iter) {
-        iter = acc[Symbol.iterator]();
-        acc = iter.next().value;
-    } else {
-        iter = iter[Symbol.iterator]();
+        return reduce(f, head((iter = acc[Symbol.iterator]())), iter);
     }
 
-    // for (const a of iter) {
-    //     acc = acc instanceof Promise ? acc.then((acc) => f(acc, a)) : f(acc, a);
-    // }
-    // return acc;
+    iter = iter[Symbol.iterator]();
+
     return go1(acc, function recur() {
+        let cur;
         while (!(cur = iter.next()).done) {
-            const a = cur.value;
-            acc = f(acc, a);
-            if (acc instanceof Promise) return acc.then(recur);
+            acc = reduceF(acc, cur.value, f);
+            if (acc instanceof Promise) {
+                return acc.then(recur);
+            }
         }
         return acc;
     });
